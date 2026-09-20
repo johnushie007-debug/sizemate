@@ -7,8 +7,8 @@
    ===================================================================== */
 
 const SM = {
-  endpoint: 'PASTE_YOUR_WEB_APP_URL_HERE',   // ends in /exec
-  version: 'SizeMate 1.0 · by Urbanpack',
+  endpoint: 'https://script.google.com/macros/s/AKfycbxWa1DUdXjXBty6guc_duBQL0kH9S-kSc7RAIAaJl7GcHPNQT2wnvpOOh4i1xI5fjk6IQ/exec',   // ends in /exec
+  version: 'SizeMate 2.0 · by Urbanpack',
   pollMs: 6000
 };
 
