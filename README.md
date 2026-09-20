@@ -31,7 +31,7 @@ The app is a set of files. Any web address will do.
 **On your own site (simplest, since you already have one)**
 1. In cPanel → File Manager, open `public_html` and create a folder `sizemate`.
 2. Upload every file from this folder into it, keeping the names exactly.
-3. Visit `https://faosecurityservices.com.ng/sizemate/`. It should load.
+3. Visit `https://urbanpack.com.ng/sizemate/`. It should load.
 
 **Or free hosting:** create a repository on GitHub, upload the files, and turn on
 GitHub Pages (Settings → Pages → Deploy from branch → main). You get an address
