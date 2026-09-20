@@ -1,0 +1,16 @@
+{
+  "name": "SizeMate — size converter",
+  "short_name": "SizeMate",
+  "description": "Convert clothing and shoe sizes between US, UK, China and EU. Save your sizes and share them with family and friends.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f8fc",
+  "theme_color": "#0b2a5b",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

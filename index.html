@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b2a5b">
+<meta name="description" content="Convert clothing and shoe sizes between US, UK, China and EU. Save your sizes and share them with family and friends.">
+<title>SizeMate — size converter</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ FIRST RUN ============ -->
+<section class="screen welcome" id="scWelcome" hidden>
+  <div class="welcome__inner">
+    <div class="logo">Size<span>Mate</span></div>
+    <p class="welcome__lead">Know your size anywhere. Convert clothing and shoes between
+      US, UK, China and EU sizing, save what fits, and share it with the people who shop for you.</p>
+    <label class="label" for="wName">Your name</label>
+    <input class="input" id="wName" maxlength="40" placeholder="e.g. Amaka" autocomplete="name">
+    <label class="label" for="wCountry">Where you are</label>
+    <select class="input" id="wCountry"></select>
+    <label class="label" for="wGender">Sizes you usually shop</label>
+    <select class="input" id="wGender">
+      <option value="female">Women's</option>
+      <option value="male">Men's</option>
+      <option value="both">Both</option>
+    </select>
+    <button class="btn btn--primary btn--block" id="wStart">Start</button>
+    <p class="fine">Everything stays on your phone unless you choose to share it.</p>
+  </div>
+</section>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+  <header class="topbar">
+    <div class="logo logo--sm">Size<span>Mate</span></div>
+    <button class="chip" id="whoChip">—</button>
+  </header>
+
+  <main id="main">
+
+    <!-- ---- CONVERT ---- -->
+    <section class="screen" id="scConvert">
+      <h1 class="h1">What are you sizing?</h1>
+      <p class="sub">Pick the item first, then enter the size you already know.</p>
+      <div class="cats" id="cats"></div>
+
+      <div id="converter" hidden>
+        <div class="card">
+          <div class="card__head">
+            <div>
+              <h2 class="h2" id="catTitle">—</h2>
+              <p class="sub" id="catHint">—</p>
+            </div>
+            <button class="btn btn--ghost btn--sm" id="changeCat">Change</button>
+          </div>
+
+          <label class="label" for="sysSel">The size you know is in…</label>
+          <select class="input" id="sysSel"></select>
+
+          <label class="label" for="valSel">Your size</label>
+          <select class="input" id="valSel"></select>
+
+          <p class="fine" id="bodyHint" hidden></p>
+        </div>
+
+        <div id="result" hidden>
+          <h2 class="h2 result__title">Your size elsewhere</h2>
+          <div class="grid" id="resultGrid"></div>
+          <div class="card body-card" id="bodyCard" hidden>
+            <h3 class="h3">Body measurements for this size</h3>
+            <div class="rows" id="bodyRows"></div>
+            <p class="fine">If your own measurements are close to the edge of this range, take the larger size.</p>
+          </div>
+          <div class="actions">
+            <button class="btn btn--primary" id="saveBtn">Save to my sizes</button>
+            <button class="btn btn--ghost" id="shareBtn">Share</button>
+          </div>
+          <p class="note">
+            These are the standard conversion charts. Brands differ, and Chinese sizing usually
+            runs smaller, so check the seller's own chart for anything expensive.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- MY SIZES ---- -->
+    <section class="screen" id="scHistory" hidden>
+      <h1 class="h1">My sizes</h1>
+      <p class="sub">Saved on this phone. Tap one to see it in every system again.</p>
+      <div id="historyList"></div>
+      <div class="empty" id="historyEmpty" hidden>
+        <p>Nothing saved yet.</p>
+        <button class="btn btn--primary" data-go="convert">Convert a size</button>
+      </div>
+    </section>
+
+    <!-- ---- PEOPLE ---- -->
+    <section class="screen" id="scPeople" hidden>
+      <h1 class="h1">People</h1>
+      <p class="sub">Share your sizes with family and friends so they buy the right thing.</p>
+
+      <div class="card" id="linkCard">
+        <h3 class="h3">Your SizeMate code</h3>
+        <div class="code" id="myCode">— — — —</div>
+        <p class="fine">Give this code to someone so they can add you. Ask for theirs to add them.</p>
+        <button class="btn btn--ghost btn--sm" id="copyCode">Copy my code</button>
+        <hr class="rule">
+        <label class="label" for="addCode">Add someone by code</label>
+        <div class="row">
+          <input class="input" id="addCode" maxlength="8" placeholder="e.g. K7M2PQ" autocapitalize="characters">
+          <button class="btn btn--primary" id="addBtn">Add</button>
+        </div>
+        <p class="msg" id="peopleMsg" hidden></p>
+      </div>
+
+      <div id="friendList"></div>
+      <div class="empty" id="offlineNote" hidden>
+        <p><b>Sharing and chat are switched off.</b></p>
+        <p class="fine">The person who set up SizeMate needs to add the server address.
+          Conversions and saved sizes work without it.</p>
+      </div>
+    </section>
+
+    <!-- ---- CHAT ---- -->
+    <section class="screen screen--chat" id="scChat" hidden>
+      <div class="chat__head">
+        <button class="btn btn--ghost btn--sm" id="chatBack">Back</button>
+        <div><b id="chatWho">—</b><span class="fine" id="chatSub"></span></div>
+      </div>
+      <div class="chat__log" id="chatLog"></div>
+      <div class="chat__send">
+        <input class="input" id="chatText" maxlength="500" placeholder="Write a message…">
+        <button class="btn btn--primary" id="chatSend" aria-label="Send">Send</button>
+      </div>
+    </section>
+
+    <!-- ---- PROFILE ---- -->
+    <section class="screen" id="scProfile" hidden>
+      <h1 class="h1">Profile</h1>
+      <div class="card">
+        <label class="label" for="pName">Name</label>
+        <input class="input" id="pName" maxlength="40">
+        <label class="label" for="pCountry">Country</label>
+        <select class="input" id="pCountry"></select>
+        <label class="label" for="pGender">Sizes you usually shop</label>
+        <select class="input" id="pGender">
+          <option value="female">Women's</option>
+          <option value="male">Men's</option>
+          <option value="both">Both</option>
+        </select>
+        <button class="btn btn--primary btn--block" id="pSave">Save profile</button>
+        <p class="msg" id="profileMsg" hidden></p>
+      </div>
+      <div class="card">
+        <h3 class="h3">About sizing</h3>
+        <p class="fine">SizeMate uses the standard conversion charts between US, UK, China and EU
+          sizing. Garments still vary between brands, and Chinese sizes usually run smaller than
+          Western ones. Where the app shows body measurements in centimetres, trust those first.</p>
+        <hr class="rule">
+        <h3 class="h3">Your data</h3>
+        <p class="fine">Your name, country and saved sizes are kept on this phone. Sizes you share,
+          and chat messages, are stored on the SizeMate server so the other person can see them.</p>
+        <button class="btn btn--ghost btn--sm" id="wipeBtn">Delete everything on this phone</button>
+      </div>
+      <p class="fine version" id="version">SizeMate</p>
+    </section>
+  </main>
+
+  <!-- ---- TABS ---- -->
+  <nav class="tabs" id="tabs">
+    <button data-go="convert" class="on">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg><span>Convert</span></button>
+    <button data-go="history">
+      <svg viewBox="0 0 24 24"><path d="M5 5h14v14H5z"/><path d="M9 9h6M9 13h6"/></svg><span>My sizes</span></button>
+    <button data-go="people">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><path d="M17 8h5M19.5 5.5v5"/></svg><span>People</span></button>
+    <button data-go="profile">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg><span>Profile</span></button>
+  </nav>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<!-- Share sheet for sending a size to a friend -->
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet__panel">
+    <h3 class="h3" id="sheetTitle">Share this size</h3>
+    <div id="sheetBody"></div>
+    <button class="btn btn--ghost btn--block" id="sheetClose">Close</button>
+  </div>
+</div>
+
+<script src="sizes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
