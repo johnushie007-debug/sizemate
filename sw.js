@@ -1,5 +1,5 @@
 /* SizeMate service worker — makes the app open and work without internet. */
-const CACHE = 'sizemate-v1';
+const CACHE = 'sizemate-v2';
 const FILES = ['./', './index.html', './styles.css', './app.js', './sizes.js',
                './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
